@@ -51,8 +51,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _a = "par";
-  String _pi;
+  String _pi = "par";
 
   void _incrementCounter() {
     setState(() {
