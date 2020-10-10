@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'El Grandioso Concatenador e Contador',
+      title: 'El Grandioso Countador e Parificador',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -21,12 +21,8 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'El Grandioso Concatenador e Contador'),
+      home: MyHomePage(title: 'El Grandioso Countador e Parificador'),
     );
   }
 }
@@ -51,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _pi = "par";
+  String _pi = "0 não é par nem ímpar";
 
   void _incrementCounter() {
     setState(() {
@@ -60,8 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
-      _pi = _counter % 2 == 0 ? "par" : "impar";
+      _pi = _counter % 2 == 0 ? "par" : "ímpar";
       _counter++;
     });
   }
@@ -101,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Nusha, sabe quantas vezes tu clicou? Olha ae:',
+              'Nusha, sabe quantas vezes tu clicou no botão lá? Olha ae:',
             ),
             Text(
               '$_counter',
@@ -110,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Rapash, teu número é $_pi',
               style: Theme.of(context).textTheme.headline6,
-            )
+            ),
           ],
         ),
       ),
