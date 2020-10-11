@@ -10,9 +10,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'El Grandioso Countador e Parificador',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Colors.black,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       home: MyHomePage(title: 'El Grandioso Countador e Parificador'),
     );
   }
@@ -29,14 +30,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  var _color = Colors.black;
+  var _color = Colors.white;
   String _pi = "0 não é par nem ímpar";
 
   void _incrementCounter() {
     setState(() {
-      _pi = _counter % 2 == 0 ? "par" : "ímpar";
-      _color = _pi == "par" ? Colors.blue : Colors.red;
       _counter++;
+      _pi = _counter % 2 == 0 ? "PAR" : "ÍMPAR";
+      _color = _pi == "PAR" ? Colors.blue : Colors.red;
     });
   }
 
@@ -52,16 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'Nusha, sabe quantas vezes tu clicou no botão lá? Olha ae:',
+              textAlign: TextAlign.center,
+              style: TextStyle(height: 1.5),
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: TextStyle(fontSize: 38),
             ),
             Text(
-              _pi == '0 não é par nem ímpar'
-                  ? '$_pi'
-                  : 'Rapash, teu número é $_pi',
-              style: TextStyle(color: _color),
+              _counter == 0 ? '$_pi' : 'Rapash, teu número é:',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: _color, height: 1.5),
+            ),
+            Text(
+              _counter == 0 ? '' : '$_pi',
+              style: TextStyle(color: _color, fontSize: 34),
             ),
           ],
         ),
