@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(
-      title: "Sr do Tempo",
+      title: "Biribinha",
       home: PaginaInicial(),
     ));
 
@@ -25,8 +25,8 @@ class _HomeState extends State<PaginaInicial> {
   var humidity;
   var windSpeed;
 
-  Future getWeather(String cep) async {
-    print(cep);
+  Future getWeather(cep) async {
+
     http.Response consulta = await http.get (
       "https://viacep.com.br/ws/" + cep + "/json/"
     );
@@ -54,9 +54,24 @@ class _HomeState extends State<PaginaInicial> {
 
   void initState() {
     super.initState();
+
+    _controller.addListener(() {
+      final text = _controller.text.toLowerCase();
+      _controller.value = _controller.value.copyWith(
+        text: text,
+        selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
+        composing: TextRange.empty,
+      );
+    });
+  }
+
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +122,7 @@ class _HomeState extends State<PaginaInicial> {
                       decoration: const InputDecoration(
                         hintText: 'Digite seu CEP',
                       ),
+                      controller: _controller,
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -125,7 +141,7 @@ class _HomeState extends State<PaginaInicial> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        getWeather(value);
+                        getWeather(_controller.text);
                       }
                     },
                     child: Text('Consultar'),
