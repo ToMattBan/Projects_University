@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(
-      title: "Biribinha",
-      home: PaginaInicial(),
-    ));
+  title: "Biribinha",
+  home: PaginaInicial(),
+));
 
 class PaginaInicial extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -75,104 +75,103 @@ class _HomeState extends State<PaginaInicial> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: <Widget>[
-      Container(
-        height: MediaQuery.of(context).size.height / 3,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.blue,
-        child: Column(
+      body: Column(children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.orange,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: Text(
-                  "tempo agora",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600),
+              Text(city == null || district == null || uf == null ? "" : "O tempo agora em",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400
                 ),
               ),
-              Text(temp != null ? temp.toString() + "\u00B0" : "Loading",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600)),
               Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  "Rain",
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: Text( city == null || district == null || uf == null ? "Carregando" : city + ' / ' + district + ' / ' + uf,
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w600
+                  ),
                 ),
               ),
-            ]),
-      ),
-      Expanded(
+              Text(city == null || district == null || uf == null ? "" : "É, exatamente:",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400
+                ),
+              ),
+            ]
+          ),
+        ),
+        Expanded(
           child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: ListView(
-                children: <Widget>[
-                  Form (
-                    key: _formKey,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Digite seu CEP',
-                      ),
-                      controller: _controller,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ],
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Por favor insira um CEP';
-                        }
-                        if (value.length != 8) {
-                          return 'Por favor digite um CEP válido';
-                        }
-                        return null;
-                      },
+            padding: EdgeInsets.all(20.0),
+            child: ListView(
+              children: <Widget>[
+                Form (
+                  key: _formKey,
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      hintText: 'Digite seu CEP',
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        getWeather(_controller.text);
+                    controller: _controller,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Por favor insira um CEP';
                       }
+                      if (value.length != 8) {
+                        return 'Por favor digite um CEP válido';
+                      }
+                      return null;
                     },
-                    child: Text('Consultar'),
                   ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.thermometerHalf),
-                    title: Text("Temperatura"),
-                    trailing: Text(
-                        temp != null ? temp.toString() + "\u00B0" : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.cloud),
-                    title: Text("Clima"),
-                    trailing: Text(deion != null
-                        ? deion.toString()
-                        : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.sun),
-                    title: Text("umidade"),
-                    trailing: Text(
-                        humidity != null ? humidity.toString() : "Loading"),
-                  ),
-                  ListTile(
-                    leading: FaIcon(FontAwesomeIcons.wind),
-                    title: Text("Velocidade do Vento"),
-                    trailing: Text(
-                        windSpeed != null ? windSpeed.toString() : "Loading"),
-                  )
-                ],
-              )))
-    ]));
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      getWeather(_controller.text);
+                    }
+                  },
+                  child: Text('Consultar'),
+                ),
+                ListTile(
+                  leading: FaIcon(FontAwesomeIcons.thermometerHalf),
+                  title: Text("Temperatura"),
+                  trailing: Text( temp != null ? temp.toString() + "\u00B0F" : "Loading"),
+                ),
+                ListTile(
+                  leading: FaIcon(FontAwesomeIcons.cloud),
+                  title: Text("Clima"),
+                  trailing: Text(currently != null ? currently.toString() : "Loading"),
+                ),
+                ListTile(
+                  leading: FaIcon(FontAwesomeIcons.sun),
+                  title: Text("Umidade"),
+                  trailing: Text(humidity != null ? humidity.toString() : "Loading"),
+                ),
+                ListTile(
+                  leading: FaIcon(FontAwesomeIcons.wind),
+                  title: Text("Velocidade do Vento"),
+                  trailing: Text( windSpeed != null ? windSpeed.toString() : "Loading"),
+                )
+              ],
+            )
+          )
+        )
+      ])
+    );
   }
 }
